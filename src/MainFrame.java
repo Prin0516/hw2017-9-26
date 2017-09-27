@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,13 +12,17 @@ public class MainFrame extends Frame {
     private Button autobtn=new Button("Auto move");
     private Button exitbtn=new Button("Exit");
     private Label hitlab=new Label("Hit:0");
+    private ImageIcon triangle=new ImageIcon("triangle.png");
+    private JLabel trilab=new JLabel(triangle);
+    private ImageIcon gun=new ImageIcon("gun.png");
+    private Timer t1;
 
 
     public MainFrame(){
         init();
     }
     private void init(){
-        this.setBounds(50,50,900,800);
+        this.setBounds(50,50,1000,800);
         this.setLayout(null);
         rightbtn.setBounds(400,600,50,50);
         leftbtn.setBounds(480,600,50,50);
@@ -37,10 +42,18 @@ public class MainFrame extends Frame {
                 System.exit(0);
             }
         });
+        trilab.setBounds(500,450,100,100);
+        this.add(trilab);
         exitbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+        t1=new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
 
