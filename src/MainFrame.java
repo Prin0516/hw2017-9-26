@@ -17,15 +17,17 @@ public class MainFrame extends Frame {
     private JLabel trilab=new JLabel(triangle);
     private ImageIcon gun=new ImageIcon("gun.png");
     private JLabel gunlab=new JLabel(gun);
+    private JLabel gunlab1=new JLabel(gun);
     private ImageIcon sun=new ImageIcon("sun.png");
     private JLabel sunlab=new JLabel(sun);
     private ImageIcon line=new ImageIcon("line.png");
     private JLabel linelab=new JLabel(line);
-    private Timer t1;
-    private int gunlabX,gunlabY,a,hit=0;
-
-
+    private Timer t1,t2;
+    private int gunlabX,gunlabY,trilabX,trilabY,y,a,hit=0;
+    private Random rnd=new Random();
     private boolean boo=true;
+    private boolean boo1=true;
+    private boolean boo2=true;
 
 
     public MainFrame(){
@@ -54,11 +56,11 @@ public class MainFrame extends Frame {
         });
         trilab.setBounds(500,450,100,100);
         this.add(trilab);
-        sunlab.setBounds(500,100,100,100);
+        sunlab.setBounds(500,100,30,30);
         this.add(sunlab);
         linelab.setBounds(80,550,800,10);
         this.add(linelab);
-        gunlab.setBounds(trilab.getX()+25,trilab.getY()-25,50,50);
+        gunlab.setBounds(trilab.getX()+35,trilab.getY()-10,30,30);
         this.add(gunlab);
         exitbtn.addActionListener(new ActionListener() {
             @Override
@@ -69,72 +71,120 @@ public class MainFrame extends Frame {
         rightbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                t2.stop();
                 int a=trilab.getX();
-                trilab.setLocation(a+5,trilab.getY());
-                gunlab.setLocation(trilab.getX()+25,trilab.getY()-25);
+                trilab.setLocation(a+10,trilab.getY());
+                gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
                 if(trilab.getX()>=800){
                     trilab.setLocation(800,trilab.getY());
-                    gunlab.setLocation(trilab.getX()+25,trilab.getY()-25);
+                    gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
                 }
-                gunlabX=trilab.getX()+25;
+                gunlabX=trilab.getX()+35;
                 gunlabY=gunlab.getY();
-                a=trilab.getY()-25;
+
             }
         });
         leftbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                t2.stop();
                 int b=trilab.getX();
-                trilab.setLocation(b-5,trilab.getY());
-                gunlab.setLocation(trilab.getX()+25,trilab.getY()-25);
+                trilab.setLocation(b-10,trilab.getY());
+                gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
                 if(trilab.getX()<=60){
                     trilab.setLocation(60,trilab.getY());
-                    gunlab.setLocation(trilab.getX()+25,trilab.getY()-25);
+                    gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
                 }
-                gunlabX=trilab.getX()+25;
+                gunlabX=trilab.getX()+35;
                 gunlabY=gunlab.getY();
-                a=trilab.getY()-25;
+                a=trilab.getY()-35;
             }
         });
         firebtn.addActionListener(new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
                 t1.start();
             }
         });
-        gunlabX=trilab.getX()+25;
-        gunlabY=gunlab.getY();
-        a=trilab.getY()-25;
-        t1=new Timer(20, new ActionListener() {
+        autobtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(boo==true){
-                    gunlab.setLocation(gunlabX,gunlabY--);
-                    if(gunlabY<=0){
-                        boo=false;
-                    }
-                    if(gunlab.getX()>=sunlab.getX()-25&&gunlab.getX()<=sunlab.getX()+50&&gunlab.getY()==sunlab.getY()+50){
-                        gunlab.setLocation(gunlabX,a);
-                        gunlabY=a;
-                        Random rnd=new Random();
-                        int sunX=rnd.nextInt();
-//                        sunlab.setLocation();
-                        hit++;
-                        hitlab.setText(Integer.toString(hit));
-                    }
-                }else if(boo==false){
-                     gunlab.setLocation(gunlabX,a);
-                     gunlabY=a;
-                    if(gunlab.getY()==a){
-                        boo=true;
-                    }
-                }
+                t2.start();
+            }
+        });
+        gunlabX=gunlab.getX();
+        gunlabY=gunlab.getY();
+        a=trilab.getY()-35;
+        t1=new Timer(2, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                t2.stop();
+                time();
             }
         });
 
-
-
-
-
+        y=trilab.getY()-10;
+        t2=new Timer(2, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(boo2==true){
+                    time();
+                    if(gunlabY<=0){
+                        boo2=false;
+                    }
+                }else if(boo2==false){
+                    time2();
+                     boo2=true;
+                }
+            }
+        });}
+    public void time(){
+        if(boo==true){
+            gunlab.setLocation(gunlabX,gunlabY--);
+            if(gunlabY<=0){
+                boo=false;
+            }
+            if(gunlab.getX()>=sunlab.getX()-25&&gunlab.getX()<=sunlab.getX()+15&&gunlab.getY()==sunlab.getY()+30){
+                gunlab.setLocation(gunlabX,a);
+                gunlabY=a;
+                hit++;
+                hitlab.setText(Integer.toString(hit));
+                int sunX=3,sunY=3;
+                while(sunX%10!=0){
+                    sunX=rnd.nextInt(785)+95;
+                    sunY=rnd.nextInt(310)+30;
+                }
+                sunlab.setLocation(sunX,sunY);
+            }
+        }else if(boo==false){
+            gunlab.setLocation(gunlabX,a);
+            gunlabY=a;
+            if(gunlab.getY()==a){
+                boo=true;
+            }
+        }
     }
-}
+    public void time2(){
+        trilabX=trilab.getX();
+        trilabY=trilab.getY();
+        if(boo1==true){
+            trilab.setLocation(trilabX+=10,trilabY);
+            gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
+            if(trilabX>=800){
+                boo1=false;
+            }
+            gunlabX=trilab.getX()+35;
+            gunlabY=gunlab.getY();
+        }else{
+            trilab.setLocation(trilabX-=10,trilabY);
+            gunlab.setLocation(trilab.getX()+35,trilab.getY()-10);
+            if(trilabX<=80){
+                boo1=true;
+            }
+            gunlabX=trilab.getX()+35;
+            gunlabY=gunlab.getY();
+        }
+    }
+    }
+
