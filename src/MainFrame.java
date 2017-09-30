@@ -7,8 +7,8 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 
 public class MainFrame extends Frame {
-    private Button rightbtn=new Button("→");
-    private Button leftbtn=new Button("←");
+    private Button rightbtn=new Button("-->");
+    private Button leftbtn=new Button("<--");
     private Button firebtn=new Button("Fire");
     private Button autobtn=new Button("Auto move");
     private Button exitbtn=new Button("Exit");
@@ -17,7 +17,6 @@ public class MainFrame extends Frame {
     private JLabel trilab=new JLabel(triangle);
     private ImageIcon gun=new ImageIcon("gun.png");
     private JLabel gunlab=new JLabel(gun);
-    private JLabel gunlab1=new JLabel(gun);
     private ImageIcon sun=new ImageIcon("sun.png");
     private JLabel sunlab=new JLabel(sun);
     private ImageIcon line=new ImageIcon("line.png");
@@ -105,27 +104,26 @@ public class MainFrame extends Frame {
 
             public void actionPerformed(ActionEvent e) {
                 t1.start();
+                t2.stop();
             }
         });
         autobtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                t1.stop();
                 t2.start();
             }
         });
-        gunlabX=gunlab.getX();
-        gunlabY=gunlab.getY();
-        a=trilab.getY()-35;
-        t1=new Timer(2, new ActionListener() {
+
+        t1=new Timer(5, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 t2.stop();
                 time();
             }
         });
-
         y=trilab.getY()-10;
-        t2=new Timer(2, new ActionListener() {
+        t2=new Timer(5, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(boo2==true){
@@ -138,8 +136,13 @@ public class MainFrame extends Frame {
                      boo2=true;
                 }
             }
-        });}
+        });
+        gunlabX=trilab.getX()+35;
+        gunlabY=gunlab.getY();
+        a=trilab.getY()-35;}
+
     public void time(){
+
         if(boo==true){
             gunlab.setLocation(gunlabX,gunlabY--);
             if(gunlabY<=0){
